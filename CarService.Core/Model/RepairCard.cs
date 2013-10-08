@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CarService.Core.Managers;
 
 namespace CarService.Core.Model
 {
@@ -34,9 +35,25 @@ namespace CarService.Core.Model
         public int RepairPrice { get; set; }
         public Guid UserId { get; set; }
         public bool Completed { get; set; }
+        public Guid MechanicId { get; set; }
 
         public Car Car { get; set; }
-        public Mechanic Mechanic { get; set; }
+        public Mechanic Mechanic
+        {
+            get
+            {
+                if (this.mechanic == null)
+                {
+                    this.mechanic = MechanicsManager.GetManager().Get(this.MechanicId);
+                }
+
+                return this.mechanic;
+            }
+            set
+            {
+                this.mechanic = value;
+            }
+        }
         public ICollection<SparePart> SpareParts {
             get
             {
@@ -64,6 +81,7 @@ namespace CarService.Core.Model
 
         #region Private fields and constants
         private ICollection<SparePart> spareParts;
+        private Mechanic mechanic;
         #endregion
     }
 }

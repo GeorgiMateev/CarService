@@ -9,7 +9,7 @@ namespace CarService.WebApp.Models.Car
     public class CarModel
     {
         #region Car properties
-        public Guid CarId { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [Display(Name = "Registration number")]

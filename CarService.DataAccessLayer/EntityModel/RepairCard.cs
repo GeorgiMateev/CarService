@@ -21,18 +21,16 @@ namespace CarService.DataAccessLayer.EntityModel
     
         public System.Guid Id { get; set; }
         public System.DateTime AcceptedDate { get; set; }
-        public System.DateTime FinishedDate { get; set; }
+        public Nullable<System.DateTime> FinishedDate { get; set; }
         public System.Guid CarId { get; set; }
         public string Description { get; set; }
         public System.Guid MechanicId { get; set; }
-        public System.Guid SparePartId { get; set; }
         public int SparePartsPrice { get; set; }
         public int RepairPrice { get; set; }
         public System.Guid UserId { get; set; }
         public bool Completed { get; set; }
     
         public virtual Car Car { get; set; }
-        public virtual Mechanic Mechanic { get; set; }
         public virtual ICollection<SparePart> SpareParts { get; set; }
     }
 }

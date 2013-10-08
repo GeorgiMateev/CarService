@@ -17,7 +17,7 @@ namespace CarService.WebApp.Models.Repairs
 
         #region Repair card properties
         [Display(Name="Repair card Id")]
-        public Guid RepairCardId { get; set; } 
+        public Guid Id { get; set; } 
        
         public System.DateTime AcceptedDate { get; set; }
         public System.DateTime FinishedDate { get; set; }

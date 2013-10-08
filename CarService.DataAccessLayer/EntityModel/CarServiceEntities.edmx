@@ -38,7 +38,7 @@
     <Property Name="EngineNumber" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="Brand" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="Model" Type="nvarchar" Nullable="false" MaxLength="50" />
-    <Property Name="ProductionYear" Type="datetime" Nullable="false" />
+    <Property Name="ProductionYear" Type="datetime" Nullable="true" />
     <Property Name="OwnerName" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="OwnerNumber" Type="int" Nullable="false" />
   </EntityType>
@@ -56,11 +56,10 @@
     </Key>
     <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="AcceptedDate" Type="datetime" Nullable="false" />
-    <Property Name="FinishedDate" Type="datetime" Nullable="false" />
+    <Property Name="FinishedDate" Type="datetime" Nullable="true" />
     <Property Name="CarId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
     <Property Name="MechanicId" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="SparePartId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="SparePartsPrice" Type="int" Nullable="false" />
     <Property Name="RepairPrice" Type="int" Nullable="false" />
     <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
@@ -163,7 +162,7 @@
           <Property Name="EngineNumber" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="Brand" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="Model" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="ProductionYear" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ProductionYear" Type="DateTime" Nullable="true" Precision="0" />
           <Property Name="OwnerName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="OwnerNumber" Type="Int32" Nullable="false" />
           <NavigationProperty Name="RepairCards" Relationship="Model.FK_RepairCards_Cars" FromRole="Cars" ToRole="RepairCards" />
@@ -183,17 +182,15 @@
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="AcceptedDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="FinishedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FinishedDate" Type="DateTime" Nullable="true" Precision="0" />
           <Property Name="CarId" Type="Guid" Nullable="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="MechanicId" Type="Guid" Nullable="false" />
-          <Property Name="SparePartId" Type="Guid" Nullable="false" />
           <Property Name="SparePartsPrice" Type="Int32" Nullable="false" />
           <Property Name="RepairPrice" Type="Int32" Nullable="false" />
           <Property Name="UserId" Type="Guid" Nullable="false" />
           <Property Name="Completed" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Car" Relationship="Model.FK_RepairCards_Cars" FromRole="RepairCards" ToRole="Cars" />
-          <NavigationProperty Name="Mechanic" Relationship="Model.FK_RepairCards_Mechanics" FromRole="RepairCards" ToRole="Mechanics" />
           <NavigationProperty Name="SpareParts" Relationship="Model.PartsCards" FromRole="RepairCards" ToRole="SpareParts" />
         </EntityType>
         <EntityType Name="SparePart">
@@ -273,7 +270,6 @@
           <ScalarProperty Name="CarId" ColumnName="CarId" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="MechanicId" ColumnName="MechanicId" />
-          <ScalarProperty Name="SparePartId" ColumnName="SparePartId" />
           <ScalarProperty Name="SparePartsPrice" ColumnName="SparePartsPrice" />
           <ScalarProperty Name="RepairPrice" ColumnName="RepairPrice" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />

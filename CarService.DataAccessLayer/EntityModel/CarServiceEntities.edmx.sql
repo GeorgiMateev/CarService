@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 10/08/2013 00:07:33
+-- Date Created: 10/09/2013 00:25:56
 -- Generated from EDMX file: E:\SU\Telerik\MVC\CarService\CarService.DataAccessLayer\EntityModel\CarServiceEntities.edmx
 -- --------------------------------------------------
 
@@ -62,7 +62,7 @@ CREATE TABLE [dbo].[Cars] (
     [EngineNumber] nvarchar(50)  NOT NULL,
     [Brand] nvarchar(50)  NOT NULL,
     [Model] nvarchar(50)  NOT NULL,
-    [ProductionYear] datetime  NOT NULL,
+    [ProductionYear] datetime  NULL,
     [OwnerName] nvarchar(50)  NOT NULL,
     [OwnerNumber] int  NOT NULL
 );
@@ -80,11 +80,10 @@ GO
 CREATE TABLE [dbo].[RepairCards] (
     [Id] uniqueidentifier  NOT NULL,
     [AcceptedDate] datetime  NOT NULL,
-    [FinishedDate] datetime  NOT NULL,
+    [FinishedDate] datetime  NULL,
     [CarId] uniqueidentifier  NOT NULL,
     [Description] nvarchar(max)  NOT NULL,
     [MechanicId] uniqueidentifier  NOT NULL,
-    [SparePartId] uniqueidentifier  NOT NULL,
     [SparePartsPrice] int  NOT NULL,
     [RepairPrice] int  NOT NULL,
     [UserId] uniqueidentifier  NOT NULL,

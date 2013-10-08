@@ -25,7 +25,7 @@ namespace CarService.DataAccessLayer.EntityModel
         public string EngineNumber { get; set; }
         public string Brand { get; set; }
         public string Model { get; set; }
-        public System.DateTime ProductionYear { get; set; }
+        public Nullable<System.DateTime> ProductionYear { get; set; }
         public string OwnerName { get; set; }
         public int OwnerNumber { get; set; }
     

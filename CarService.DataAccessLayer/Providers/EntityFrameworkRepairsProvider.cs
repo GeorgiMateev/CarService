@@ -94,10 +94,25 @@ namespace CarService.DataAccessLayer.Providers
 
         public override void Add(Core.Model.RepairCard item)
         {
+            if (item == null) return;
+
+            if (Guid.Equals(item.Id, Guid.Empty))
+            {
+                item.Id = Guid.NewGuid();
+            }
+
+            if (Guid.Equals(item.Car.Id, Guid.Empty))
+            {
+                item.Car.Id = Guid.NewGuid();
+            }
+
+            item.FinishedDate = new DateTime(1800, 1, 1);
+            item.Car.ProductionYear = new DateTime(1800, 1, 1);
+
             using (var dbContext = new CarServiceEntities())
             {
                 var entity = MappingManager.Instance.Map<Core.Model.RepairCard, RepairCard>(item);
-                var addedCard = dbContext.RepairCards.Add(entity);
+                dbContext.RepairCards.Add(entity);
 
                 dbContext.SaveChanges();
             }

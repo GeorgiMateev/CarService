@@ -41,7 +41,7 @@
     @foreach (CarService.WebApp.Models.Repairs.RepairCardModel item in Model.PageContent)
     {
         <tr>
-            <td>@item.RepairCardId</td>
+            <td>@item.Id</td>
             <td>@item.AcceptedDate.ToShortDateString()</td>            
             @if (item.Completed)
             {
@@ -61,7 +61,7 @@
             <td>@Membership.GetUser(item.UserId).UserName</td>
             @if (item.UserId.Equals((Guid)Membership.GetUser(User.Identity.Name).ProviderUserKey) || Roles.IsUserInRole(User.Identity.Name, "Administrator"))
             {
-                <td>@Html.ActionLink("Edit", "Edit", "Repairs", new { id = item.RepairCardId }, new { })</td>
+                <td>@Html.ActionLink("Edit", "Edit", "Repairs", new { id = item.Id }, new { })</td>
             }            
         </tr>
     }

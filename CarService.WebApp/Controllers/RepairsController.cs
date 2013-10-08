@@ -25,35 +25,35 @@ namespace CarService.WebApp.Controllers
         public ActionResult Index(string status = "Personal", int page = 1)
         {
             PagingModel model = null;
-
             var repairCards = RepairsManager.GetManager().Get();
-
+            var repairCardsModel = MappingManager.Instance.Map<IEnumerable<Core.Model.RepairCard>, IEnumerable<RepairCardModel>>(repairCards);
+            
             switch (status)
             {
                 case "All":
-                    model = new PagingModel(repairCards.Count());
+                    model = new PagingModel(repairCardsModel.Count());
                     model.ItemsOnPage = RepairsController.ItemsOnPage;
                     model.PageNumber = page;
-                    model.PageContent = repairCards.Skip(model.SkippedNumber).Take(model.ItemsOnPage);
+                    model.PageContent = repairCardsModel.Skip(model.SkippedNumber).Take(model.ItemsOnPage);
                     ViewBag.Status = "All";
                     break;
                 case "InProgress":
-                    model = new PagingModel(repairCards.Where(c => !c.Completed).Count());
+                    model = new PagingModel(repairCardsModel.Where(c => !c.Completed).Count());
                     model.ItemsOnPage = RepairsController.ItemsOnPage;
                     model.PageNumber = page;
-                    model.PageContent = repairCards.Where(x => !x.Completed).Skip(model.SkippedNumber).Take(model.ItemsOnPage);
+                    model.PageContent = repairCardsModel.Where(x => !x.Completed).Skip(model.SkippedNumber).Take(model.ItemsOnPage);
                     ViewBag.Status = "InProgress";
                     break;
                 case "Completed":
-                    model = new PagingModel(repairCards.Where(c => c.Completed).Count());
+                    model = new PagingModel(repairCardsModel.Where(c => c.Completed).Count());
                     model.ItemsOnPage = RepairsController.ItemsOnPage;
                     model.PageNumber = page;
-                    model.PageContent = repairCards.Where(x => x.Completed).Skip(model.SkippedNumber).Take(model.ItemsOnPage);
+                    model.PageContent = repairCardsModel.Where(x => x.Completed).Skip(model.SkippedNumber).Take(model.ItemsOnPage);
                     ViewBag.Status = "Completed";
                     break;
                 case "Personal":
                     var userGUID = (Guid)Membership.GetUser(User.Identity.Name).ProviderUserKey;
-                    var items = repairCards.Where(x => x.UserId.Equals(userGUID));
+                    var items = repairCardsModel.Where(x => x.UserId.Equals(userGUID));
                     model = new PagingModel(items.Count());
                     model.ItemsOnPage = RepairsController.ItemsOnPage;
                     model.PageNumber = page;
@@ -99,7 +99,6 @@ namespace CarService.WebApp.Controllers
                 }
 
                 // TODO: Add insert logic here
-                //var car = MappingManager.Instance.Map<CarModel, Core.Model.Car>(repairCardModel.Car);
                 var repairCard = MappingManager.Instance.Map<RepairCardModel, Core.Model.RepairCard>(repairCardModel);                
 
                 var currentUserId = (Guid)Membership.GetUser(User.Identity.Name).ProviderUserKey;
@@ -109,6 +108,8 @@ namespace CarService.WebApp.Controllers
                 }
 
                 repairCard.UserId = currentUserId;
+                repairCard.AcceptedDate = DateTime.Now;
+                repairCard.Mechanic = MechanicsManager.GetManager().Get(repairCardModel.MechanicId);
 
                 RepairsManager.GetManager().Add(repairCard);
 
@@ -141,7 +142,7 @@ namespace CarService.WebApp.Controllers
 
             using (var dbContext = new CarServiceEntities())
             {
-                var parts = dbContext.RepairCards.Find(model.RepairCardId).SpareParts;
+                var parts = dbContext.RepairCards.Find(model.Id).SpareParts;
 
                 for (int i = 0; i < model.SpareParts.Count; i++ )
                 {
@@ -164,7 +165,7 @@ namespace CarService.WebApp.Controllers
             try
             {
                 var originalData = RepairsManager.GetManager().Get()
-                    .Where(x => x.Id == repairCardModel.RepairCardId).SingleOrDefault();
+                    .Where(x => x.Id == repairCardModel.Id).SingleOrDefault();
                 
                 var userGUID = (Guid)Membership.GetUser(User.Identity.Name).ProviderUserKey;
 
@@ -175,7 +176,7 @@ namespace CarService.WebApp.Controllers
 
                 var editedRepairCard = MappingManager.Instance.Map<RepairCardModel, Core.Model.RepairCard>(repairCardModel);
                 
-                var originalRepairCard = RepairsManager.GetManager().Get(repairCardModel.RepairCardId);
+                var originalRepairCard = RepairsManager.GetManager().Get(repairCardModel.Id);
 
                 if (!originalRepairCard.Completed && editedRepairCard.Completed)
                 {
