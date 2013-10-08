@@ -1,0 +1,34 @@
+﻿@model CarService.WebApp.Models.PagingModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.ActionLink("Add new part", "Create", "Parts")
+
+<ul class="paging">
+    @for (int i = 1; i <= Model.PagesCount; i++)
+    {
+        <li><a href="/parts?page=@i">@Html.Raw(i.ToString())</a></li>
+    }
+</ul>
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Available</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (CarService.WebApp.Models.Parts.PartModel part in Model.PageContent)
+    {
+        <tr>
+            <td>@part.Id</td>
+            <td>@part.Name</td>
+            <td>@part.Price</td>
+            <td>@part.Active</td>
+            <td>@Html.ActionLink("Edit", "Edit", "Parts", new { id = part.Id }, new { })</td>
+        </tr>
+    }
+</table>

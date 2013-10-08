@@ -1,0 +1,40 @@
+﻿@model CarService.WebApp.Models.Parts.PartModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>Use the form below to add a new part.</h2>
+</hgroup>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+@using (Html.BeginForm("Create", "Parts")) {
+    @Html.ValidationSummary(true, "Creation was unsuccessful. Please correct the errors and try again.")
+
+    <fieldset>
+        <legend>Create Form</legend>
+        <ul>
+            <li>
+                @Html.LabelFor(m => m.Name)
+                @Html.TextBoxFor(m => m.Name)
+                @Html.ValidationMessageFor(m => m.Name)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Price)
+                @Html.TextBoxFor(m => m.Price)
+                @Html.ValidationMessageFor(m => m.Price)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Active)
+                @Html.CheckBoxFor(m => m.Active)
+                @Html.ValidationMessageFor(m => m.Active)
+            </li>
+        </ul>
+        <input type="submit" value="Add part" />
+    </fieldset>
+}

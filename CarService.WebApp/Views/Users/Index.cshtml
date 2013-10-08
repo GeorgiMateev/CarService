@@ -1,0 +1,32 @@
+﻿@model CarService.WebApp.Models.PagingModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Users</h2>
+
+@Html.ActionLink("Create new user", "Create", "Users")
+
+<ul class="paging">
+    @for (int i = 1; i <= Model.PagesCount; i++)
+    {
+        <li><a href="/users?page=@i">@Html.Raw(i.ToString())</a></li>
+    }
+</ul>
+
+<table>
+    <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (MembershipUser user in Model.PageContent)
+    {
+        <tr>
+            <td>@user.UserName</td>
+            <td>@user.Email</td>
+            <td>@Html.ActionLink("Edit", "Edit", "Users", new { username = @user.UserName }, new { })</td>
+        </tr>
+    }
+</table>

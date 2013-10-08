@@ -1,0 +1,68 @@
+﻿@model CarService.WebApp.Models.PagingModel
+
+@{
+    ViewBag.Title = "Repair Cards";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.ActionLink("Create new repair card", "Create", "Repairs")
+
+<ul>
+    <li><@Html.ActionLink("All","Index", "Repairs",new {status = "All"}, new {})</li>
+    <li><@Html.ActionLink("In progress","Index", "Repairs",new {status = "InProgress"}, new {})</li>
+    <li><@Html.ActionLink("Completed","Index", "Repairs",new {status = "Completed"}, new {})</li>
+    <li><@Html.ActionLink("My repair cards","Index", "Repairs",new {status = "Personal"}, new {})</li>
+</ul>
+
+<h3>@ViewBag.Status</h3>
+
+<ul class="paging">
+    @for (int i = 1; i <= Model.PagesCount; i++)
+    {
+        <li><a href="/repairs?status=@ViewBag.Status&page=@i">@Html.Raw(i.ToString())</a></li>
+    }
+</ul>
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Accepted date</th>
+        <th>Finished date</th>
+        <th>Car brand</th>
+        <th>Car model</th>
+        <th>Registration number</th>
+        <th>Frame number</th>
+        <th>Owner name</th>
+        <th>Parts price</th>
+        <th>Repair price</th>
+        <th>Created by</th>        
+        <th>Actions</th>       
+    </tr>
+    @foreach (CarService.WebApp.Models.Repairs.RepairCardModel item in Model.PageContent)
+    {
+        <tr>
+            <td>@item.RepairCardId</td>
+            <td>@item.AcceptedDate.ToShortDateString()</td>            
+            @if (item.Completed)
+            {
+                <td>@item.FinishedDate.ToShortDateString()</td>
+            }
+            else
+            {
+                <td>Not completed</td>
+            }
+            <td>@item.Car.Brand</td>
+            <td>@item.Car.Model</td>
+            <td>@item.Car.RegistrationNumber</td>
+            <td>@item.Car.FrameNumber</td>
+            <td>@item.Car.OwnerName</td>
+            <td>@item.SparePartsPrice</td>
+            <td>@item.RepairPrice</td>
+            <td>@Membership.GetUser(item.UserId).UserName</td>
+            @if (item.UserId.Equals((Guid)Membership.GetUser(User.Identity.Name).ProviderUserKey) || Roles.IsUserInRole(User.Identity.Name, "Administrator"))
+            {
+                <td>@Html.ActionLink("Edit", "Edit", "Repairs", new { id = item.RepairCardId }, new { })</td>
+            }            
+        </tr>
+    }
+</table>

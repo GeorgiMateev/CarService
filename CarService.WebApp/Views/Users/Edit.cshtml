@@ -1,0 +1,40 @@
+﻿@model CarService.WebApp.Models.Users.UserModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>Use the form below to edit the selected user.</h2>
+</hgroup>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+@using (Html.BeginForm("Edit", "Users")) {
+    @Html.ValidationSummary(true, "Edit was unsuccessful. Please correct the errors and try again.")
+
+    <fieldset>
+        <legend>Edit Form</legend>
+        <ol>
+            <li>
+                @Html.LabelFor(m => m.Username)
+                @Html.DisplayFor(m => m.Username)
+                @Html.HiddenFor(m => m.Username)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Email)
+                @Html.TextBoxFor(m => m.Email)
+                @Html.ValidationMessageFor(m => m.Email)
+            </li>            
+            <li>
+                @Html.LabelFor(m => m.Role)
+                @Html.DropDownListFor(m => m.Role, new SelectList(Model.Roles))
+                @Html.ValidationMessageFor(m => m.Role)
+            </li>
+        </ol>
+        <input type="submit" value="Edit user" />
+    </fieldset>
+}
